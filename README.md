@@ -36,6 +36,36 @@ Multi-process motion detection pipeline
 
 ## Running the Components
 
+### Presenter
+
+The Presneter reads frames from the Detector and shows the detections in each frame on the screen. 
+
+**Arguments:**
+- `presentor_address`: Address of the Presenter (which port to listen for incoming frames).
+
+**Example:**
+
+```bash
+cd src
+python presenter.py tcp://*:5556
+```
+
+### Detector
+
+The Detector reads frames from the Streamer, detects motion as contours, and send them to the Presenter. 
+
+**Arguments:**
+- `detector_address`: Address of the Detector (which port to listen for incoming frames).
+- `presenter_address`: Address of the Presenter.
+- `min_contour_area`: The minimum area of the contours (rectangles) to detect.
+
+**Example:**
+
+```bash
+cd src
+python detector.py tcp://*:5555 tcp://127.0.0.1:5556 500
+```
+
 ### Streamer
 
 The Streamer reads frames from a video file and sends them to the Detector. 
@@ -48,4 +78,6 @@ The Streamer reads frames from a video file and sends them to the Detector.
 
 ```bash
 cd src
-python streamer.py <path_to_your_video_file.mp4> tcp://127.0.0.1:5555
+python streamer.py "path_to_your_video_file.mp4" tcp://127.0.0.1:5555
+```
+
