@@ -29,9 +29,15 @@ def presenter(presenter_address):
             contours = np.frombuffer(contours_bytes, dtype=np.int32).reshape(-1, 4)
 
             current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+           
             for (x, y, w, h) in contours:
+                roi = frame[y:y+h, x:x+w]
+                blurred_roi = cv2.GaussianBlur(roi, (15, 15), 0)
+                frame[y:y+h, x:x+w] = blurred_roi
+
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(frame, current_time, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            
+            cv2.putText(frame, current_time, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
             cv2.imshow('Presenter', frame)
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
