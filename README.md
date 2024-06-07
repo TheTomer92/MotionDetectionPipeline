@@ -9,7 +9,7 @@ Multi-process motion detection pipeline
 
 ## Prerequisites
 
-- Python 3.6 or higher
+- Python 3.8 or higher
 - `pip` (Python package installer)
 
 ## Setup
